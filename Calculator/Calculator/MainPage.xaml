@@ -1,25 +1,82 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Calculator"
              x:Class="Calculator.MainPage">
 
-    <StackLayout>
-        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
-            <Label Text="Welcome to Xamarin.Forms!" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
-        </Frame>
-        <Label Text="Start developing now" FontSize="Title" Padding="30,10,30,10"/>
-        <Label Text="Make changes to your XAML file and save to see your UI update in the running app with XAML Hot Reload. Give it a try!" FontSize="16" Padding="30,0,30,0"/>
-        <Label FontSize="16" Padding="30,24,30,0">
-            <Label.FormattedText>
-                <FormattedString>
-                    <FormattedString.Spans>
-                        <Span Text="Learn more at "/>
-                        <Span Text="https://aka.ms/xamarin-quickstart" FontAttributes="Bold"/>
-                    </FormattedString.Spans>
-                </FormattedString>
-            </Label.FormattedText>
-        </Label>
+
+<RelativeLayout>
+    <StackLayout RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.4}">
+        <!-- Outer grid -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Row 0 -->
+            <Button Grid.Row="0" Grid.Column="0" Text="AC" Style="{StaticResource TertiaryButtonStyle}" />
+            <Button Grid.Row="0" Grid.Column="1" Text="(+/-)" Style="{StaticResource TertiaryButtonStyle}" />
+            <Button Grid.Row="0" Grid.Column="2" Text="(%)" Style="{StaticResource TertiaryButtonStyle}" />
+            <Button Grid.Row="0" Grid.Column="3" Text="(/)" Style="{StaticResource PrimaryButtonStyle}" />
+
+            <!-- Row 1 -->
+            <Button Grid.Row="1" Grid.Column="0" Text="7" Style="{StaticResource ButtonStyle}" />
+            <Button Grid.Row="1" Grid.Column="1" Text="8" Style="{StaticResource ButtonStyle}" />
+            <Button Grid.Row="1" Grid.Column="2" Text="9" Style="{StaticResource ButtonStyle}" />
+            <Button Grid.Row="1" Grid.Column="3" Text="*" Style="{StaticResource PrimaryButtonStyle}" />
+
+            <!-- Row 2 -->
+            <Button Grid.Row="2" Grid.Column="0" Text="4" Style="{StaticResource ButtonStyle}" />
+            <Button Grid.Row="2" Grid.Column="1" Text="5" Style="{StaticResource ButtonStyle}" />
+            <Button Grid.Row="2" Grid.Column="2" Text="6" Style="{StaticResource ButtonStyle}" />
+            <Button Grid.Row="2" Grid.Column="3" Text="-" Style="{StaticResource PrimaryButtonStyle}" />
+
+            <!-- Row 3 -->
+            <Button Grid.Row="3" Grid.Column="0" Text="1" Style="{StaticResource ButtonStyle}" />
+            <Button Grid.Row="3" Grid.Column="1" Text="2" Style="{StaticResource ButtonStyle}" />
+            <Button Grid.Row="3" Grid.Column="2" Text="3" Style="{StaticResource ButtonStyle}" />
+            <Button Grid.Row="3" Grid.Column="3" Text="+" Style="{StaticResource PrimaryButtonStyle}" />
+
+            <!-- Row 4 -->
+            <Button Grid.Row="4" Grid.Column="0" Text="0" Grid.ColumnSpan="2" Style="{StaticResource ButtonStyle}" />
+            <Button Grid.Row="4" Grid.Column="2" Text="." Style="{StaticResource ButtonStyle}" />
+            <Button Grid.Row="4" Grid.Column="3" Text="=" Style="{StaticResource PrimaryButtonStyle}" />
+        </Grid>
+
+        <!-- Inner grid -->
+        <Grid x:Name="NumberContainer">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Define the buttons here as you wish -->
+        </Grid>
     </StackLayout>
+    <RelativeLayout.YConstraint>
+        <ConstraintExpression Type="RelativeToParent" Property="Height" Factor="0.6" />
+    </RelativeLayout.YConstraint>
+</RelativeLayout>
+
+
+
 
 </ContentPage>
 

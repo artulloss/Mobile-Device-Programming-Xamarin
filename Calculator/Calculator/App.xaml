@@ -1,8 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Calculator.App">
+             x:Class="Calculator.App"
+             xmlns:local="clr-namespace:Calculator">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{x:Static local:StaticProperties.COLOR_SECONDARY}" />
+                <Setter Property="CornerRadius" Value="{x:Static local:StaticProperties.CORNER_RADIUS}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="WidthRequest" Value="{x:Static local:StaticProperties.BUTTON_SIZE}" />
+                <Setter Property="HeightRequest" Value="{x:Static local:StaticProperties.BUTTON_SIZE}" />
+            </Style>
+            <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+                <Setter Property="BackgroundColor" Value="{x:Static local:StaticProperties.COLOR_PRIMARY}" />
+            </Style>
+            <Style x:Key="TertiaryButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+                <Setter Property="BackgroundColor" Value="{x:Static local:StaticProperties.COLOR_TERTIARY}" />
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
