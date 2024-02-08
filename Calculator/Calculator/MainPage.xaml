@@ -2,12 +2,17 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Calculator"
-             x:Class="Calculator.MainPage">
+             x:Class="Calculator.MainPage"
+             >
 
 
-<RelativeLayout>
-    <StackLayout RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.4}">
-        <!-- Outer grid -->
+<RelativeLayout BackgroundColor="{x:Static local:StaticProperties.COLOR_BLACK}">
+    <StackLayout
+        RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.8}"
+        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.2}"
+        Padding="8"
+    >
+        <Label x:Name="Display" HorizontalTextAlignment="End" Text="3.14" TextColor="{x:Static local:StaticProperties.COLOR_WHITE}" FontSize="64"></Label>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -25,58 +30,36 @@
             </Grid.ColumnDefinitions>
 
             <!-- Row 0 -->
-            <Button Grid.Row="0" Grid.Column="0" Text="AC" Style="{StaticResource TertiaryButtonStyle}" />
-            <Button Grid.Row="0" Grid.Column="1" Text="(+/-)" Style="{StaticResource TertiaryButtonStyle}" />
-            <Button Grid.Row="0" Grid.Column="2" Text="(%)" Style="{StaticResource TertiaryButtonStyle}" />
-            <Button Grid.Row="0" Grid.Column="3" Text="(/)" Style="{StaticResource PrimaryButtonStyle}" />
+            <Button Grid.Row="0" Grid.Column="0" Text="AC" Style="{StaticResource TertiaryButtonStyle}" Clicked="Button_Clicked_Clear"/>
+            <Button Grid.Row="0" Grid.Column="1" Text="±" Style="{StaticResource TertiaryButtonStyle}" Clicked="Button_Clicked_Flip_Negative" />
+            <Button Grid.Row="0" Grid.Column="2" Text="%" Style="{StaticResource TertiaryButtonStyle}" />
+            <Button Grid.Row="0" Grid.Column="3" Text="÷" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding OperationButtonCommand}" CommandParameter="{x:Static local:Operation.DIVISION}" />
 
             <!-- Row 1 -->
-            <Button Grid.Row="1" Grid.Column="0" Text="7" Style="{StaticResource ButtonStyle}" />
-            <Button Grid.Row="1" Grid.Column="1" Text="8" Style="{StaticResource ButtonStyle}" />
-            <Button Grid.Row="1" Grid.Column="2" Text="9" Style="{StaticResource ButtonStyle}" />
-            <Button Grid.Row="1" Grid.Column="3" Text="*" Style="{StaticResource PrimaryButtonStyle}" />
+            <Button Grid.Row="1" Grid.Column="0" Text="7" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="7" />
+            <Button Grid.Row="1" Grid.Column="1" Text="8" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="8"/>
+            <Button Grid.Row="1" Grid.Column="2" Text="9" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="9"/>
+            <Button Grid.Row="1" Grid.Column="3" Text="×" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding OperationButtonCommand}" CommandParameter="{x:Static local:Operation.MULTIPLICATION}" />
 
             <!-- Row 2 -->
-            <Button Grid.Row="2" Grid.Column="0" Text="4" Style="{StaticResource ButtonStyle}" />
-            <Button Grid.Row="2" Grid.Column="1" Text="5" Style="{StaticResource ButtonStyle}" />
-            <Button Grid.Row="2" Grid.Column="2" Text="6" Style="{StaticResource ButtonStyle}" />
-            <Button Grid.Row="2" Grid.Column="3" Text="-" Style="{StaticResource PrimaryButtonStyle}" />
+            <Button Grid.Row="2" Grid.Column="0" Text="4" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="4" />
+            <Button Grid.Row="2" Grid.Column="1" Text="5" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="5" />
+            <Button Grid.Row="2" Grid.Column="2" Text="6" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="6" />
+            <Button Grid.Row="2" Grid.Column="3" Text="-" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding OperationButtonCommand}" CommandParameter="{x:Static local:Operation.SUBTRACTION}" />
 
             <!-- Row 3 -->
-            <Button Grid.Row="3" Grid.Column="0" Text="1" Style="{StaticResource ButtonStyle}" />
-            <Button Grid.Row="3" Grid.Column="1" Text="2" Style="{StaticResource ButtonStyle}" />
-            <Button Grid.Row="3" Grid.Column="2" Text="3" Style="{StaticResource ButtonStyle}" />
-            <Button Grid.Row="3" Grid.Column="3" Text="+" Style="{StaticResource PrimaryButtonStyle}" />
+            <Button Grid.Row="3" Grid.Column="0" Text="1" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="1" />
+            <Button Grid.Row="3" Grid.Column="1" Text="2" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="2" />
+            <Button Grid.Row="3" Grid.Column="2" Text="3" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="3" />
+            <Button Grid.Row="3" Grid.Column="3" Text="+" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding OperationButtonCommand}" CommandParameter="{x:Static local:Operation.ADDITION}" />
 
             <!-- Row 4 -->
             <Button Grid.Row="4" Grid.Column="0" Text="0" Grid.ColumnSpan="2" Style="{StaticResource ButtonStyle}" />
+
             <Button Grid.Row="4" Grid.Column="2" Text="." Style="{StaticResource ButtonStyle}" />
             <Button Grid.Row="4" Grid.Column="3" Text="=" Style="{StaticResource PrimaryButtonStyle}" />
         </Grid>
-
-        <!-- Inner grid -->
-        <Grid x:Name="NumberContainer">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <!-- Define the buttons here as you wish -->
-        </Grid>
     </StackLayout>
-    <RelativeLayout.YConstraint>
-        <ConstraintExpression Type="RelativeToParent" Property="Height" Factor="0.6" />
-    </RelativeLayout.YConstraint>
 </RelativeLayout>
-
-
-
-
 </ContentPage>
 
