@@ -5,58 +5,165 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using static Xamarin.Essentials.Permissions;
 
 namespace Calculator
 {
     public partial class MainPage : ContentPage
     {
-        private decimal? Memory = null;
-        private Operation? operation = null;
+        public Operation? Operation;
+        public decimal? Memory;
 
-        public Command<int> NumberButtonCommand { get; }
-        public Command<Operation> OperationButtonCommand { get; }
+        public decimal? Current = 0;
 
         public MainPage()
         {
             InitializeComponent();
-            NumberButtonCommand = new Command<int>(HandleNumberButtonClicked);
-            OperationButtonCommand = new Command<Operation>(HandleOperationButtonClicked);
             BindingContext = this;
+        }
+
+        public void UpdateDisplay(string val)
+        {
+            Display.Text = val;
         }
 
         void SetCurrent(decimal val)
         {
-            Display.Text = val.ToString();
+            Current = val;
         }
 
-        decimal GetCurrent()
+        decimal? ExecuteCalculation()
         {
-            return Convert.ToDecimal(Display.Text);
+            if (Memory == null)
+                return null;
+
+            switch(this.Operation)
+            {
+                case Calculator.Operation.ADDITION:
+                    return Memory + Current;
+                case Calculator.Operation.SUBTRACTION:
+                    return Memory - Current;
+                case Calculator.Operation.MULTIPLICATION:
+                    return Memory * Current;
+                case Calculator.Operation.DIVISION:
+                    if(Current == 0m)
+                    {
+                        throw new DivideByZeroException();
+                    }
+                    return Memory / Current;
+            }
+            throw new Exception("Invalid operand");
         }
 
         void Button_Clicked_Flip_Negative(System.Object sender, System.EventArgs e)
         {
-            SetCurrent(GetCurrent() * -1);
+            SetCurrent(Current.Value * -1);
+            UpdateDisplay(Current.ToString());
         }
 
-        void HandleNumberButtonClicked(int number)
+        private void OnNumberButtonClicked(object sender, EventArgs e)
         {
-            var current = GetCurrent();
-            var newValue = current.ToString() + number.ToString();
-            SetCurrent(Convert.ToDecimal(newValue));
+            var button = sender as Button;
+            if (button != null)
+            {
+                var number = button.Text; // This gives you the button's text
+                                          // Handle the number button click, e.g., append the number to the current display
+
+                if(Operation != null)
+                {
+                    Memory = Current;
+                    Current = 0m;
+                }
+
+
+                var newValue = $"{Current}{number}";
+
+                if(newValue.Length > 9)
+                {
+                    return; // iOS calculator limit is 9
+                }
+
+                if (Current == 0m)
+                {
+                    newValue = number;
+                }
+
+
+                if(Display.Text.Contains(".") && Current % 1 == 0)
+                {
+                    // Handle setting a decimal IF the display contains a decimal but the current value is a whole number
+                    newValue = $"{Current}.{number}";
+                }
+
+                SetCurrent(Convert.ToDecimal(newValue));
+
+                UpdateDisplay(newValue);
+            }
         }
 
-        void HandleOperationButtonClicked(Operation operation)
+        private void OnOperationButtonClicked(object sender, EventArgs e)
         {
-            Memory = GetCurrent();
-            this.operation = operation;
+            var button = sender as Button;
+            if (button != null)
+            {
+                var operation = button.Text; // This gives you the button's text
+                                             // Handle the operation button click
+                                             // You might need to translate the text to an Operation enum value
+
+                if (Memory != null && Current != null && Operation != null)
+                {
+                    var result = ExecuteCalculation();
+                    UpdateDisplay(result.ToString());
+                    Current = result;
+                }
+
+
+                switch (operation)
+                {
+                    case "+":
+                        this.Operation = Calculator.Operation.ADDITION;
+                        break;
+                    case "-":
+                        this.Operation = Calculator.Operation.SUBTRACTION;
+                        break;
+                    case "×":
+                        this.Operation = Calculator.Operation.MULTIPLICATION;
+                        break;
+                    case "÷":
+                        this.Operation = Calculator.Operation.DIVISION;
+                        break;
+                }
+
+
+            }
         }
 
         void Button_Clicked_Clear(System.Object sender, System.EventArgs e)
         {
-            this.operation = null;
+            Operation = null;
             SetCurrent(0);
+            UpdateDisplay("0");
             Memory = null;
+        }
+
+        void OnDecimalButtonClicked(System.Object sender, System.EventArgs e)
+        {
+            var remainder = Current % 1;
+            if (remainder == 0m)
+            {
+                OnNumberButtonClicked(sender, e);
+            }
+            
+        }
+
+        void OnSolveButtonClicked(System.Object sender, System.EventArgs e)
+        {
+            if (Memory != null && Current != null && Operation != null)
+            {
+                var result = ExecuteCalculation();
+                UpdateDisplay(result.ToString());
+                Current = result;
+            }
         }
     }
 }

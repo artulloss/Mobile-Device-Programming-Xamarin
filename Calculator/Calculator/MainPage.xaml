@@ -12,7 +12,7 @@
         RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.2}"
         Padding="8"
     >
-        <Label x:Name="Display" HorizontalTextAlignment="End" Text="3.14" TextColor="{x:Static local:StaticProperties.COLOR_WHITE}" FontSize="64"></Label>
+        <Label x:Name="Display" HorizontalTextAlignment="End" Text="0" TextColor="{x:Static local:StaticProperties.COLOR_WHITE}" FontSize="72"></Label>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -33,31 +33,30 @@
             <Button Grid.Row="0" Grid.Column="0" Text="AC" Style="{StaticResource TertiaryButtonStyle}" Clicked="Button_Clicked_Clear"/>
             <Button Grid.Row="0" Grid.Column="1" Text="±" Style="{StaticResource TertiaryButtonStyle}" Clicked="Button_Clicked_Flip_Negative" />
             <Button Grid.Row="0" Grid.Column="2" Text="%" Style="{StaticResource TertiaryButtonStyle}" />
-            <Button Grid.Row="0" Grid.Column="3" Text="÷" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding OperationButtonCommand}" CommandParameter="{x:Static local:Operation.DIVISION}" />
+            <Button Grid.Row="0" Grid.Column="3" Text="÷" Style="{StaticResource PrimaryButtonStyle}" Clicked="OnOperationButtonClicked" />
 
             <!-- Row 1 -->
-            <Button Grid.Row="1" Grid.Column="0" Text="7" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="7" />
-            <Button Grid.Row="1" Grid.Column="1" Text="8" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="8"/>
-            <Button Grid.Row="1" Grid.Column="2" Text="9" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="9"/>
+            <Button Grid.Row="1" Grid.Column="0" Text="7" Style="{StaticResource ButtonStyle}" Clicked="OnNumberButtonClicked" />
+            <Button Grid.Row="1" Grid.Column="1" Text="8" Style="{StaticResource ButtonStyle}" Clicked="OnNumberButtonClicked" />
+            <Button Grid.Row="1" Grid.Column="2" Text="9" Style="{StaticResource ButtonStyle}" Clicked="OnNumberButtonClicked" />
             <Button Grid.Row="1" Grid.Column="3" Text="×" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding OperationButtonCommand}" CommandParameter="{x:Static local:Operation.MULTIPLICATION}" />
 
             <!-- Row 2 -->
-            <Button Grid.Row="2" Grid.Column="0" Text="4" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="4" />
-            <Button Grid.Row="2" Grid.Column="1" Text="5" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="5" />
-            <Button Grid.Row="2" Grid.Column="2" Text="6" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="6" />
-            <Button Grid.Row="2" Grid.Column="3" Text="-" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding OperationButtonCommand}" CommandParameter="{x:Static local:Operation.SUBTRACTION}" />
+            <Button Grid.Row="2" Grid.Column="0" Text="4" Style="{StaticResource ButtonStyle}" Clicked="OnNumberButtonClicked" />
+            <Button Grid.Row="2" Grid.Column="1" Text="5" Style="{StaticResource ButtonStyle}" Clicked="OnNumberButtonClicked" />
+            <Button Grid.Row="2" Grid.Column="2" Text="6" Style="{StaticResource ButtonStyle}" Clicked="OnNumberButtonClicked" />
+            <Button Grid.Row="2" Grid.Column="3" Text="-" Style="{StaticResource PrimaryButtonStyle}" Clicked="OnOperationButtonClicked" />
 
             <!-- Row 3 -->
-            <Button Grid.Row="3" Grid.Column="0" Text="1" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="1" />
-            <Button Grid.Row="3" Grid.Column="1" Text="2" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="2" />
-            <Button Grid.Row="3" Grid.Column="2" Text="3" Style="{StaticResource ButtonStyle}" Command="{Binding NumberButtonCommand}" CommandParameter="3" />
-            <Button Grid.Row="3" Grid.Column="3" Text="+" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding OperationButtonCommand}" CommandParameter="{x:Static local:Operation.ADDITION}" />
+            <Button Grid.Row="3" Grid.Column="0" Text="1" Style="{StaticResource ButtonStyle}" Clicked="OnNumberButtonClicked" />
+            <Button Grid.Row="3" Grid.Column="1" Text="2" Style="{StaticResource ButtonStyle}" Clicked="OnNumberButtonClicked" />
+            <Button Grid.Row="3" Grid.Column="2" Text="3" Style="{StaticResource ButtonStyle}" Clicked="OnNumberButtonClicked" />
+            <Button Grid.Row="3" Grid.Column="3" Text="+" Style="{StaticResource PrimaryButtonStyle}" Clicked="OnOperationButtonClicked" />
 
             <!-- Row 4 -->
-            <Button Grid.Row="4" Grid.Column="0" Text="0" Grid.ColumnSpan="2" Style="{StaticResource ButtonStyle}" />
-
-            <Button Grid.Row="4" Grid.Column="2" Text="." Style="{StaticResource ButtonStyle}" />
-            <Button Grid.Row="4" Grid.Column="3" Text="=" Style="{StaticResource PrimaryButtonStyle}" />
+            <Button Grid.Row="4" Grid.Column="0" Text="0" Grid.ColumnSpan="2" Style="{StaticResource ButtonStyle}" Clicked="OnNumberButtonClicked" />
+            <Button Grid.Row="4" Grid.Column="2" Text="." Style="{StaticResource ButtonStyle}" Clicked="OnDecimalButtonClicked" />
+            <Button Grid.Row="4" Grid.Column="3" Text="=" Style="{StaticResource PrimaryButtonStyle}" Clicked="OnSolveButtonClicked" />
         </Grid>
     </StackLayout>
 </RelativeLayout>
