@@ -16,18 +16,44 @@ namespace Calculator
 
         public decimal? Current = 0;
 
+        private int _numClickedInARow = 0;
+
         public MainPage()
         {
             InitializeComponent();
             BindingContext = this;
+            UpdateDisplay("0");
         }
 
         public void UpdateDisplay(string val)
         {
+            // Reset font size
+            Display.FontSize = StaticProperties.DISPLAY_FONT_SIZE_DEFAULT;
+
+            switch (val.Length)
+            {
+                case 7:
+                    Display.FontSize = StaticProperties.DISPLAY_FONT_SIZE_SEVEN;
+                    break;
+                case 8:
+                    Display.FontSize = StaticProperties.DISPLAY_FONT_SIZE_EIGHT;
+                    break;
+            }
+
+            if(val.Length >= 9)
+            {
+                Display.FontSize = StaticProperties.DISPLAY_FONT_SIZE_NINE;
+            }
+
             Display.Text = val;
         }
 
-        void SetCurrent(decimal val)
+        public string GetDisplay()
+        {
+            return Display.Text;
+        }
+
+        void SetCurrent(decimal? val)
         {
             Current = val;
         }
@@ -37,7 +63,7 @@ namespace Calculator
             if (Memory == null)
                 return null;
 
-            switch(this.Operation)
+            switch(Operation)
             {
                 case Calculator.Operation.ADDITION:
                     return Memory + Current;
@@ -48,7 +74,8 @@ namespace Calculator
                 case Calculator.Operation.DIVISION:
                     if(Current == 0m)
                     {
-                        throw new DivideByZeroException();
+                        UpdateDisplay("Error");
+                        return null;
                     }
                     return Memory / Current;
             }
@@ -59,22 +86,22 @@ namespace Calculator
         {
             SetCurrent(Current.Value * -1);
             UpdateDisplay(Current.ToString());
+            _numClickedInARow = 0;
         }
 
-        private void OnNumberButtonClicked(object sender, EventArgs e)
+        private void On_Number_Button_Clicked(object sender, EventArgs e)
         {
+            _numClickedInARow++;
             var button = sender as Button;
             if (button != null)
             {
-                var number = button.Text; // This gives you the button's text
-                                          // Handle the number button click, e.g., append the number to the current display
+                var number = button.Text;
 
-                if(Operation != null)
+                if(_numClickedInARow <= 1 && Operation != null && Current != null)
                 {
                     Memory = Current;
                     Current = 0m;
                 }
-
 
                 var newValue = $"{Current}{number}";
 
@@ -97,18 +124,18 @@ namespace Calculator
 
                 SetCurrent(Convert.ToDecimal(newValue));
 
+                ClearBtn.Text = "C";
+
                 UpdateDisplay(newValue);
             }
         }
 
-        private void OnOperationButtonClicked(object sender, EventArgs e)
+        private void On_Operation_Button_Clicked(object sender, EventArgs e)
         {
             var button = sender as Button;
             if (button != null)
             {
-                var operation = button.Text; // This gives you the button's text
-                                             // Handle the operation button click
-                                             // You might need to translate the text to an Operation enum value
+                var operation = button.Text;
 
                 if (Memory != null && Current != null && Operation != null)
                 {
@@ -116,7 +143,6 @@ namespace Calculator
                     UpdateDisplay(result.ToString());
                     Current = result;
                 }
-
 
                 switch (operation)
                 {
@@ -133,37 +159,62 @@ namespace Calculator
                         this.Operation = Calculator.Operation.DIVISION;
                         break;
                 }
-
+                _numClickedInARow = 0;
 
             }
+        }
+
+        public void Clear(bool all = false)
+        {
+            SetCurrent(null);
+            UpdateDisplay("0");
+            if (all)
+            {
+                Operation = null;
+                Memory = null;
+            }
+            _numClickedInARow = 0;
         }
 
         void Button_Clicked_Clear(System.Object sender, System.EventArgs e)
         {
-            Operation = null;
-            SetCurrent(0);
-            UpdateDisplay("0");
-            Memory = null;
+            var button = sender as Button;
+            if (button.Text == "C")
+            {
+                button.Text = "AC";
+                Clear();
+            }
+            else
+            {
+                Clear(true);
+            }
         }
 
-        void OnDecimalButtonClicked(System.Object sender, System.EventArgs e)
+        void On_Decimal_Button_Clicked(System.Object sender, System.EventArgs e)
         {
             var remainder = Current % 1;
             if (remainder == 0m)
             {
-                OnNumberButtonClicked(sender, e);
+                On_Number_Button_Clicked(sender, e);
             }
-            
         }
 
-        void OnSolveButtonClicked(System.Object sender, System.EventArgs e)
+        void On_Solve_Button_Clicked(System.Object sender, System.EventArgs e)
         {
             if (Memory != null && Current != null && Operation != null)
             {
                 var result = ExecuteCalculation();
                 UpdateDisplay(result.ToString());
                 Current = result;
+                _numClickedInARow = 0;
+                Operation = null;
             }
+        }
+
+        void Button_Clicked_Percent(System.Object sender, System.EventArgs e)
+        {
+            SetCurrent(Current / 100M);
+            UpdateDisplay(Current.ToString());
         }
     }
 }

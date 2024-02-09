@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
 
 namespace Calculator
 {
@@ -17,8 +18,13 @@ namespace Calculator
         {
         }
 
-        protected override void OnSleep ()
+        protected override async void OnSleep ()
         {
+            if (MainPage is MainPage calculatorPage)
+            {
+                await Clipboard.SetTextAsync(calculatorPage.GetDisplay());
+                calculatorPage.Clear(true);
+            }
         }
 
         protected override void OnResume ()
