@@ -1,9 +1,10 @@
 ﻿using System;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace Sensor
 {
-    public class CompassSensor
+    public class CompassSensor : Utility
     {
         // Set speed delay for monitoring changes.
         readonly SensorSpeed speed = SensorSpeed.UI;
@@ -32,28 +33,35 @@ namespace Sensor
             SetCompass(_running);
         }
 
-        public void SetCompass(bool running = false)
+        public async void SetCompass(bool running = false)
         {
             try
             {
-            if(running && !Compass.IsMonitoring)
-            {
-                Compass.Start(speed);
-                _running = true;
-            } else if (!running && Compass.IsMonitoring)
-            {
-                Compass.Stop();
-                _running = false;
+                if (running && !Compass.IsMonitoring)
+                {
+                    Compass.Start(speed);
+                    _running = true;
+                }
+                else if (!running && Compass.IsMonitoring)
+                {
+                    Compass.Stop();
+                    _running = false;
+                }
             }
-            } catch (FeatureNotSupportedException e)
+            catch (FeatureNotSupportedException e)
             {
-
-            } catch (FeatureNotEnabledException e)
+                await ShowAlert("Oh no!", "The compass feature is not supported");
+                LogError("Compass not supported", e);
+            }
+            catch (FeatureNotEnabledException e)
             {
-
-            } catch (Exception e)
+                await ShowAlert("Whoops!", "Please enable the compass feature to use this app!");
+                LogError("Compass not enabled", e);
+            }
+            catch (Exception e)
             {
-                
+                await ShowAlert("Oops!", "Something went wrong!");
+                LogError("Unknown", e);
             }
         }
     }
