@@ -18,6 +18,10 @@ namespace Todo
             {
                 await Database.SaveTodoItem(todoItem);
             });
+            MessagingCenter.Subscribe<MainPage, TodoItem>(this, "RemoveItem", async (sender, todoItem) =>
+            {
+                await Database.Delete(todoItem);
+            });
         }
 
         private static TodoDatabase database = null;

@@ -1,17 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Todo.MainPage">
-
+             x:Class="Todo.MainPage"
+             Padding="{OnPlatform iOS='0,60,0,0', Android='0', UWP='0'}">
     <StackLayout Padding="10">
         <Entry x:Name="NewItemEntry" Placeholder="Add new task" />
         <Button Text="Add" Clicked="OnAddClicked" />
+        <Button Text="Toggle Complete" Clicked="ToggleComplete" />
+        <Button Text="Delete" Clicked="Delete" />
         <ListView x:Name="TodoListView"
                     ItemsSource="{Binding TodoItems}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Title}" 
-                                Detail="{Binding IsDone, Converter={StaticResource boolToStatusConverter}}" />
+                    <TextCell
+                        Text="{Binding Title}" 
+                        Detail="{Binding IsDone, Converter={StaticResource boolToStatusConverter}}"
+                    />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

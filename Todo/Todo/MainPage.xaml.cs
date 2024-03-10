@@ -40,6 +40,33 @@ namespace Todo
                 NewItemEntry.Text = string.Empty; // Reset our entry box
             }
         }
+
+        void ToggleComplete(System.Object sender, System.EventArgs e)
+        {
+            if(TodoListView.SelectedItem == null)
+            {
+                DisplayAlert("Error", "Please select an item", "Ok");
+            } else
+            {
+                TodoItem selected = (TodoItem)TodoListView.SelectedItem;
+                selected.IsDone = !selected.IsDone;
+                MessagingCenter.Send<MainPage, TodoItem>(this, "SaveItem", selected);
+            }
+        }
+
+        void Delete(System.Object sender, System.EventArgs e)
+        {
+            if (TodoListView.SelectedItem == null)
+            {
+                DisplayAlert("Error", "Please select an item", "Ok");
+            }
+            else
+            {
+                TodoItem selected = (TodoItem)TodoListView.SelectedItem;
+                TodoItems.Remove(selected);
+                MessagingCenter.Send<MainPage, TodoItem>(this, "RemoveItem", selected);
+            }
+        }
     }
 }
 
