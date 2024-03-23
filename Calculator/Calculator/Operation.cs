@@ -7,6 +7,7 @@ namespace Calculator
 		SUBTRACTION,
 		MULTIPLICATION,
 		DIVISION,
+		STOP,
 	}
 }
 
