@@ -14,22 +14,20 @@ namespace Calculator
             MainPage = new MainPage();
         }
 
-        protected override void OnStart ()
-        {
-        }
+        //protected override void OnStart ()
+        //{
+        //}
 
-        protected override async void OnSleep ()
-        {
-            if (MainPage is MainPage calculatorPage)
-            {
-                await Clipboard.SetTextAsync(calculatorPage.GetDisplay());
-                calculatorPage.Clear(true);
-            }
-        }
+        //protected override async void OnSleep ()
+        //{
+        //    if (MainPage is MainPage calculatorPage)
+        //    {
+        //    }
+        //}
 
-        protected override void OnResume ()
-        {
-        }
+        //protected override void OnResume ()
+        //{
+        //}
     }
 }
 

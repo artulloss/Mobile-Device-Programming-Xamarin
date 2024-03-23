@@ -21,12 +21,15 @@ namespace Calculator.ViewModels
             }
 
 			decimal result = FirstStep.Val;
-			Step cur = FirstStep.Next;
 
-			while (cur != null && cur.Operation != Operation.STOP)
+			Step cur = FirstStep;
+			Step next = FirstStep.Next;
+
+			while (next != null && cur.Operation != Operation.STOP)
 			{
-				result = cur.Operation.Apply(result, cur.Val);
+				result = cur.Operation.Apply(result, next.Val);
 				cur = cur.Next;
+				next = next.Next;
 			}
 
 			return result;
