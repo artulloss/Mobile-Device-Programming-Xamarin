@@ -32,6 +32,22 @@ namespace Calculator.ViewModels
 			return result;
         }
 
+		public Calculation AddStep(Step step)
+		{
+			Step cur = FirstStep;
+
+			while (cur.Next != null && cur.Next.Operation != Operation.STOP)
+			{
+				cur = cur.Next;
+			}
+
+			// Cur is at the last one
+
+			cur.Next = step;
+
+			return this;
+		}
+
 
 	}
 }

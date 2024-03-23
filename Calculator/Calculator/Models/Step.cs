@@ -7,7 +7,7 @@ namespace Calculator.Models
 
 		public Operation Operation { get; }
 
-		public Step Next { get; }
+		public Step Next { get; set; }
 
 		public Step(decimal val, Operation operation = Operation.STOP, Step next = null)
 		{
