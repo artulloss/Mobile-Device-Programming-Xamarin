@@ -3,9 +3,9 @@ namespace Calculator.Models
 {
 	public class Step
 	{
-		public decimal Val { get; }
+		public decimal Val { get; set; }
 
-		public Operation Operation { get; }
+		public Operation Operation { get; set; }
 
 		public Step Next { get; set; }
 

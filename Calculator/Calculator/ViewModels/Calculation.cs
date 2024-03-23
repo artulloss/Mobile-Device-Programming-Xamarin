@@ -15,11 +15,6 @@ namespace Calculator.ViewModels
 
 		public decimal ComputeSolution()
 		{
-            if (FirstStep == null)
-			{
-                throw new InvalidOperationException("Calculation steps cannot be null.");
-            }
-
 			decimal result = FirstStep.Val;
 
 			Step cur = FirstStep;
@@ -51,6 +46,22 @@ namespace Calculator.ViewModels
 			return this;
 		}
 
+		public Calculation ModifyStep(Step oldStep, Step newStep)
+		{
+			Step cur = FirstStep;
+
+			while (cur != null)
+			{
+				if(cur.Equals(oldStep))
+				{
+					cur.Operation = newStep.Operation;
+					cur.Val = newStep.Val;
+				}
+				cur = cur.Next;
+			}
+
+			return this;
+		}
 
 	}
 }
