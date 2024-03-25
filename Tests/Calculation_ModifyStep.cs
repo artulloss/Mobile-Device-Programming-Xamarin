@@ -1,6 +1,4 @@
-﻿using System;
-using Calculator.Models;
-using Calculator.ViewModels;
+﻿using Calculator.Models;
 
 namespace Tests
 {

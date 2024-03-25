@@ -1,5 +1,4 @@
 ﻿using Calculator.Models;
-using Calculator.ViewModels;
 
 namespace Tests;
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using Calculator.Models;
 
 namespace Calculator.Extensions
 {

@@ -1,5 +1,4 @@
-﻿using System;
-namespace Calculator.Models
+﻿namespace Calculator.Models
 {
 	public class Step
 	{

@@ -1,8 +1,6 @@
-﻿using System;
-using Calculator.Models;
-using Calculator.Extensions;
+﻿using Calculator.Extensions;
 
-namespace Calculator.ViewModels
+namespace Calculator.Models
 {
 	public class Calculation
 	{
