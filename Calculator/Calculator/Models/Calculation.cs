@@ -6,6 +6,17 @@ namespace Calculator.Models
 	{
 		public Step FirstStep;
 
+		public Step LastStep {
+			get {
+				Step cur = FirstStep;
+				while(cur != null && cur.Next != null)
+				{
+					cur = FirstStep.Next;
+				}
+				return cur;
+			}
+		}
+
 		public Calculation(Step firstStep)
 		{
 			FirstStep = firstStep;

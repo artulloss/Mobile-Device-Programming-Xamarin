@@ -19,10 +19,12 @@
     <None Remove="Models\" />
     <None Remove="ViewModels\" />
     <None Remove="Extensions\" />
+    <None Remove="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
 </Project>
