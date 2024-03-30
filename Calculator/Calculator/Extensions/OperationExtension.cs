@@ -9,7 +9,7 @@ namespace Calculator.Extensions
             switch (operation)
             {
                 case Operation.STOP:
-                    throw new Exception("The stop operation should not be applied and merely indicates the end");
+                    return x;
                 case Operation.ADDITION:
                     return x + y;
                 case Operation.SUBTRACTION:
@@ -23,6 +23,17 @@ namespace Calculator.Extensions
             }
             throw new Exception("Invalid operation"); // Never happens
         }
-	}
+
+        public static int Precedence(this Operation operation)
+        {
+            return operation switch
+            {
+                Operation.STOP => 0,
+                Operation.ADDITION or Operation.SUBTRACTION => 1,
+                Operation.MULTIPLICATION or Operation.DIVISION => 2,
+                _ => throw new Exception("Invalid operation"),// Never happens
+            };
+        }
+    }
 }
 

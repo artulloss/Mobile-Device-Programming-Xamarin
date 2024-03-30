@@ -1,15 +1,16 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Linq.Expressions;
 using System.Windows.Input;
 using Calculator.Models;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace Calculator.ViewModels
 {
     public class MainPageViewModel : BindableObject
 	{
-		public Calculation Calculation { get; set; } = null;
+#nullable enable
+		public Calculation? Calculation { get; set; } = null;
+#nullable disable
 		// This one isn't bound anywhere so it doesn't need to be in OnPropertyChanged
 		private decimal CurrentValueDecimal
 		{
@@ -50,11 +51,15 @@ namespace Calculator.ViewModels
             }
 		}
 
+		private decimal? PrevSolution;
+
 		public ICommand AddOperationCommand { private set;  get; }
 		public ICommand AddDigitCommand { private set; get; }
         public ICommand AddDecimalCommand { private set; get; }
 		public ICommand ClearCommand { private set; get; }
 		public ICommand EqualCommand { private set; get; }
+		public ICommand PercentCommand { private set; get; }
+		public ICommand FlipSignCommand { private set; get; }
 
         public MainPageViewModel()
 		{
@@ -76,20 +81,37 @@ namespace Calculator.ViewModels
 
 			ClearCommand = new Command(ClearAll);
 			EqualCommand = new Command(Solve);
+			PercentCommand = new Command(Percent);
+			FlipSignCommand = new Command(InvertSign);
+
         }
 
 		public void AddDigit(int digit)
 		{
-			if(Calculation != null && Calculation.LastStep.Operation != Operation.STOP)
+			string[] stopValues =
+			{
+				"0",
+				"NaN",
+				"Error"
+			};
+			if(stopValues.Contains(CurrentValue) || CurrentOperation != Operation.STOP)
 			{
 				CurrentValue = "";
+				CurrentOperation = Operation.STOP;
 			}
-			CurrentValue += digit.ToString();
+
+            CurrentValue += digit.ToString();
         }
 
 		public void AddDecimal()
 		{
 			if (CurrentValue.Contains(".")) return;
+			if(CurrentValue == "NaN" || CurrentValue == "Error")
+			{
+				CurrentValue = "0.";
+				return;
+			}
+
 			CurrentValue += ".";
 		}
 
@@ -117,17 +139,64 @@ namespace Calculator.ViewModels
 		{
 			ClearCurrentValue();
 			Calculation = null;
+			CurrentOperation = Operation.STOP;
 		}
 
 		public void Solve()
 		{
-			if(Calculation.LastStep.Operation != Operation.STOP)
+			if (Calculation == null) return;
+
+			Step last = Calculation.LastStep;
+
+			Step newLast = PrevSolution == CurrentValueDecimal
+				? new Step(last.Val, last.Operation)
+				: new Step(CurrentValueDecimal, last.Operation);
+
+			Calculation.AddStep(new Step(newLast.Val, newLast.Operation));
+
+			CurrentOperation = Operation.STOP;
+			decimal? solution = GetSolution();
+
+			if(solution == null)
 			{
-                Calculation.AddStep(new Step(CurrentValueDecimal));
-            }
-            decimal solution = Calculation.ComputeSolution();
+                Calculation = null;
+                CurrentOperation = Operation.STOP;
+                return;
+			}
+
+			// Flatten the calculation
+
+			Step start = new ((decimal)solution);
+            Calculation = new Calculation(start);
+
+			PrevSolution = solution;
 			CurrentValue = solution.ToString();
 		}
+
+		public void Percent()
+		{
+			CurrentValue = (CurrentValueDecimal / 100).ToString();
+		}
+
+		public void InvertSign()
+		{
+			CurrentValue = (CurrentValueDecimal * -1).ToString();
+		}
+
+		public decimal? GetSolution()
+		{
+			try
+			{
+                decimal solution = Calculation.ComputeSolution();
+                return solution;
+            } catch (DivideByZeroException _)
+			{
+				CurrentValue = "NaN";
+			} catch (Exception _) {
+				CurrentValue = "Error";
+			}
+			return null;
+        }
 
     }
 }

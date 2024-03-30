@@ -2,13 +2,14 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Calculator.App"
-             xmlns:local="clr-namespace:Calculator">
+             xmlns:local="clr-namespace:Calculator"
+             xmlns:local_converters="clr-namespace:Calculator.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <Style x:Key="ButtonStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{x:Static local:StaticProperties.COLOR_SECONDARY}" />
                 <Setter Property="CornerRadius" Value="{x:Static local:StaticProperties.CORNER_RADIUS}" />
-                <Setter Property="TextColor" Value="White" />
+                <Setter Property="TextColor" Value="{x:Static local:StaticProperties.COLOR_WHITE}" />
                 <Setter Property="WidthRequest" Value="{x:Static local:StaticProperties.BUTTON_SIZE}" />
                 <Setter Property="HeightRequest" Value="{x:Static local:StaticProperties.BUTTON_SIZE}" />
                 <Setter Property="FontSize" Value="36"/>
@@ -17,10 +18,18 @@
             <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
                 <Setter Property="BackgroundColor" Value="{x:Static local:StaticProperties.COLOR_PRIMARY}" />
             </Style>
+            <Style x:Key="PrimarySelectedButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+                <Setter Property="TextColor" Value="{x:Static local:StaticProperties.COLOR_PRIMARY}" />
+                <Setter Property="BackgroundColor" Value="{x:Static local:StaticProperties.COLOR_WHITE}" />
+            </Style>
             <Style x:Key="TertiaryButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
                 <Setter Property="BackgroundColor" Value="{x:Static local:StaticProperties.COLOR_TERTIARY}" />
                 <Setter Property="TextColor" Value="{x:Static local:StaticProperties.COLOR_BLACK}" />
             </Style>
+            <local_converters:OperationToStyleConverter x:Key="OperationToStyleConverter"
+                DefaultStyle="{StaticResource PrimaryButtonStyle}"
+                SelectedStyle="{StaticResource PrimarySelectedButtonStyle}"
+            />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -1,4 +1,6 @@
-﻿using Calculator.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using Calculator.Extensions;
 
 namespace Calculator.Models
 {
@@ -11,7 +13,7 @@ namespace Calculator.Models
 				Step cur = FirstStep;
 				while(cur != null && cur.Next != null)
 				{
-					cur = FirstStep.Next;
+					cur = cur.Next;
 				}
 				return cur;
 			}
@@ -29,7 +31,7 @@ namespace Calculator.Models
 			Step cur = FirstStep;
 			Step next = FirstStep.Next;
 
-			while (next != null && cur.Operation != Operation.STOP)
+			while (next != null)
 			{
 				result = cur.Operation.Apply(result, next.Val);
 				cur = cur.Next;
@@ -37,13 +39,14 @@ namespace Calculator.Models
 			}
 
 			return result;
-        }
+		}
 
-		public Calculation AddStep(Step step)
+
+        public Calculation AddStep(Step step)
 		{
 			Step cur = FirstStep;
 
-			while (cur.Next != null && cur.Next.Operation != Operation.STOP)
+			while (cur.Next != null)
 			{
 				cur = cur.Next;
 			}

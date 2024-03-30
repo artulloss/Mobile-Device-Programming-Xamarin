@@ -11,6 +11,10 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <LangVersion>latestMajor</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
@@ -27,4 +31,5 @@
     <Folder Include="Extensions\" />
     <Folder Include="Converters\" />
   </ItemGroup>
+
 </Project>
