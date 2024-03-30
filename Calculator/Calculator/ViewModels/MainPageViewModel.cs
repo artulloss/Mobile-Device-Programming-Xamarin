@@ -175,11 +175,31 @@ namespace Calculator.ViewModels
 
 		public void Percent()
 		{
-			CurrentValue = (CurrentValueDecimal / 100).ToString();
-		}
+			if(Calculation != null)
+			{
+				Step lastStep = Calculation.LastStep;
 
-		public void InvertSign()
+				if (lastStep.Val == CurrentValueDecimal)
+				{
+					Calculation.ModifyStep(lastStep, new Step(lastStep.Val / 100, lastStep.Operation));
+				}
+			}
+
+            CurrentValue = (CurrentValueDecimal / 100).ToString();
+        }
+
+        public void InvertSign()
 		{
+			if(Calculation != null)
+			{
+				Step lastStep = Calculation.LastStep;
+
+				if(lastStep.Val == CurrentValueDecimal)
+				{
+					Calculation.ModifyStep(lastStep, new Step(lastStep.Val * -1, lastStep.Operation));
+				}
+			}
+
 			CurrentValue = (CurrentValueDecimal * -1).ToString();
 		}
 
